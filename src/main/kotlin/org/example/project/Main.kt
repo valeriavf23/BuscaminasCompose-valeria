@@ -5,7 +5,7 @@ import androidx.compose.ui.window.application
 import org.example.project.vista.BuscaminasApp
 
 fun main() = application {
-    Window(onCloseRequest = ::exitApplication, title = "Buscaminas MVVM") {
+    Window(onCloseRequest = ::exitApplication, title = "Buscaminas") {
         BuscaminasApp()
     }
 }

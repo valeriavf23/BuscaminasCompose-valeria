@@ -16,19 +16,17 @@ import org.example.project.vistamodelo.EstadoJuego
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BuscaminasUI(estado: EstadoJuego) {
-    // 1. LEER LOS ESTADOS (Muy importante para que Compose reaccione)
-    val horaActual = estado.horaActual
-    val _refresco = estado.refresco
+    // Suscripción a los estados
+    val segundos = estado.tiempo
+    val _actualizarUI = estado.refresco
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize().padding(16.dp)
     ) {
-        // 2. EL RELOJ
-        Text("🕒 RELOJ: $horaActual", style = MaterialTheme.typography.h5)
-        Spacer(Modifier.height(16.dp))
+        Text("⏱️ TIEMPO: $segundos s", style = MaterialTheme.typography.h4)
+        Spacer(Modifier.height(20.dp))
 
-        // 3. EL TABLERO
         for (f in 0 until estado.filas) {
             Row {
                 for (c in 0 until estado.columnas) {
@@ -37,16 +35,16 @@ fun BuscaminasUI(estado: EstadoJuego) {
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier
-                            .size(45.dp)
+                            .size(40.dp)
                             .padding(1.dp)
                             .background(if (celda.estaDescubierta) Color.LightGray else Color.Gray)
                             .onClick(
                                 matcher = PointerMatcher.mouse(PointerButton.Primary),
-                                onClick = { estado.clicar(f, c, false) } // Clic normal
+                                onClick = { estado.clicar(f, c, false) }
                             )
                             .onClick(
                                 matcher = PointerMatcher.mouse(PointerButton.Secondary),
-                                onClick = { estado.clicar(f, c, true) } // Clic derecho (bandera)
+                                onClick = { estado.clicar(f, c, true) }
                             )
                     ) {
                         Text(celda.toString())
@@ -55,12 +53,11 @@ fun BuscaminasUI(estado: EstadoJuego) {
             }
         }
 
-        // 4. MENSAJE DE FIN DE JUEGO
         if (estado.juego.juegoFinalizado) {
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(20.dp))
             Text(
-                text = if (estado.juego.victoria) "¡GANASTE! 🎉" else "¡BOOM! 💣",
-                style = MaterialTheme.typography.h4,
+                text = if (estado.juego.victoria) "¡HAS GANADO! 🎉" else "¡HAS PERDIDO! 💣",
+                style = MaterialTheme.typography.h3,
                 color = if (estado.juego.victoria) Color.Blue else Color.Red
             )
         }
