@@ -7,7 +7,6 @@ import org.example.project.modelo.Buscaminas
 class EstadoJuego(val filas: Int, val columnas: Int, val numMinas: Int) {
     val juego = Buscaminas(filas, columnas, numMinas)
 
-    // Estados que la UI observará
     var refresco by mutableStateOf(0)
     var tiempo by mutableStateOf(0)
 
@@ -25,7 +24,7 @@ class EstadoJuego(val filas: Int, val columnas: Int, val numMinas: Int) {
         if (!juego.juegoFinalizado) {
             if (esBandera) juego.conmutarBandera(f, c)
             else juego.destapar(f, c)
-            refresco++ // Notifica a la UI para redibujar
+            refresco++
         }
     }
 }

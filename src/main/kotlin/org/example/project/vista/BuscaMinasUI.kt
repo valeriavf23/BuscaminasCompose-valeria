@@ -1,10 +1,7 @@
 package org.example.project.vista
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.PointerMatcher
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.onClick
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
@@ -16,16 +13,15 @@ import org.example.project.vistamodelo.EstadoJuego
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BuscaminasUI(estado: EstadoJuego) {
-    // Suscripción a los estados
-    val segundos = estado.tiempo
-    val _actualizarUI = estado.refresco
+    val tiempo = estado.tiempo
+    val _upd = estado.refresco
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize().padding(16.dp)
+        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp)
     ) {
-        Text("⏱️ TIEMPO: $segundos s", style = MaterialTheme.typography.h4)
-        Spacer(Modifier.height(20.dp))
+        Text("⏱️ TIEMPO: $tiempo s", style = MaterialTheme.typography.h4)
+        Spacer(Modifier.height(16.dp))
 
         for (f in 0 until estado.filas) {
             Row {
@@ -54,11 +50,11 @@ fun BuscaminasUI(estado: EstadoJuego) {
         }
 
         if (estado.juego.juegoFinalizado) {
-            Spacer(Modifier.height(20.dp))
             Text(
                 text = if (estado.juego.victoria) "¡HAS GANADO! 🎉" else "¡HAS PERDIDO! 💣",
                 style = MaterialTheme.typography.h3,
-                color = if (estado.juego.victoria) Color.Blue else Color.Red
+                color = if (estado.juego.victoria) Color.Blue else Color.Red,
+                modifier = Modifier.padding(16.dp)
             )
         }
     }
